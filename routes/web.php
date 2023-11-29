@@ -3,6 +3,7 @@
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\prodiController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -44,4 +45,18 @@ Route::group(['middleware' => ['auth']], function () {
         Route::resource('user', UserController::class);
     });
 });
+
+Route::get('prodi/all-join-facade', [ProdiController::class, 'allJoinFacade']);
+Route::get('prodi/all-join-elq', [ProdiController::class, 'allJoinElq']);
+
+Route::get('/prodi/create', [ProdiController::class, 'create'])->name('prodi.create');
+Route::post('prodi/store', [ProdiController::class, 'store']);
+
+Route::get('/prodi', [ProdiController::class, 'index'])->name('prodi.index');
+Route::get('/prodi/{prodi}', [ProdiController::class, 'show'])->name('prodi.show');
+
+Route::get('/prodi/{prodi}/edit', [prodiController::class, 'edit'])->name('prodi.edit');
+Route::patch('/prodi/{prodi}', [prodiController::class, 'update'])->name('prodi.update');
+Route::delete('prodi/{prodi}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
+
 
