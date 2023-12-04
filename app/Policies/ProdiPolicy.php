@@ -29,7 +29,7 @@ class ProdiPolicy
      */
     public function create(User $user): bool
     {
-        return $user->level == "admin";
+        return $user->email === 'admin1@gmail.com';
     }
 
     /**
@@ -37,7 +37,7 @@ class ProdiPolicy
      */
     public function update(User $user, Prodi $prodi): bool
     {
-        return $user->level == "admin";
+        return $user->email === 'admin1@gmail.com';
     }
 
     /**
@@ -45,7 +45,10 @@ class ProdiPolicy
      */
     public function delete(User $user, Prodi $prodi): bool
     {
-        return $user->level == "admin";
+        return in_array($user->email, [
+            'admin@gmail.com',
+            'admin1@gmail.com'
+        ]); 
     }
 
     /**

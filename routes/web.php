@@ -4,6 +4,7 @@ use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\prodiController;
+use App\Http\Controllers\API\RegisterController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -59,4 +60,6 @@ Route::get('/prodi/{prodi}/edit', [prodiController::class, 'edit'])->name('prodi
 Route::patch('/prodi/{prodi}', [prodiController::class, 'update'])->name('prodi.update');
 Route::delete('prodi/{prodi}', [ProdiController::class, 'destroy'])->name('prodi.destroy');
 
+Route::post('register', [RegisterController::class, 'register']);
+Route::post('login', [RegisterController::class, 'login']);
 
