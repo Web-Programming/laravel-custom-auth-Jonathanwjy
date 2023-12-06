@@ -9,7 +9,8 @@ class prodiController extends Controller{
 
     public function index(){
         $prodis = Prodi::all();
-        return view('prodi.index')->with('prodis',$prodis);
+        $success['data'] = $prodis;
+        return $this->sendResponse($success, 'Data Prodi.');
     }
 
     public function allJoinFacade(){
@@ -83,7 +84,7 @@ class prodiController extends Controller{
      }
 
      public function destroy(Prodi $prodi){
-        
+
         $this->authorize('delete', $prodi);
         $prodi->delete();
 

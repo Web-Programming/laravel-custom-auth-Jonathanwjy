@@ -5,8 +5,10 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\User;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
-use Validator;
+use Illuminate\Support\Facades\Validator;
+
 
 class RegisterController extends BaseController
 {
@@ -29,16 +31,30 @@ class RegisterController extends BaseController
         $success['token'] = $user->createToken('MyApp')->plainTextToken;
         $success['name'] = $user->name;
 
+        return $this->sendResponse($success, 'User register successfully');
+
     }
 
     public function login(Request $request){
-        if(Auth::attempt(['email' => $request->email, 'password' => $request->password])){
-            $user = Auth::user();
-            $success['token'] = $user->createToken('MyApp')->plainTextToken;
-            $success['name'] = $user->name;
-            return $this->sendResponse($success, 'User login Successfully');
-        } else{
-            return $this->sendError('Unauthorized', ['error' => 'Unathorizes']);
+        $validator = Validator::make($request->all(), [
+            'username' => 'required',
+            'password' => 'required',
+            'device_name' => 'required',
+        ]);
+
+        if($validator->fails()){
+            return $this->sendError('Validation error.', $validator->errors());
         }
+
+        $user = User::where('email', $request->username)->first();
+
+        if(!$user || !Hash::check($request->password, $user->password)){
+            return $this->sendError('Validation Error.', 'The provided credentials are incorrect.');
+        }
+
+        $success['token'] = $user->createToken($request->device_name)->plainTextToken;
+        $success['name'] = $user->name;
+        return $this->sendResponse($success, 'User login successfully');
+
     }
 }

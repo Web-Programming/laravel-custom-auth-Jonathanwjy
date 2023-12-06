@@ -47,6 +47,8 @@ Route::group(['middleware' => ['auth']], function () {
     });
 });
 
+
+
 Route::get('prodi/all-join-facade', [ProdiController::class, 'allJoinFacade']);
 Route::get('prodi/all-join-elq', [ProdiController::class, 'allJoinElq']);
 
